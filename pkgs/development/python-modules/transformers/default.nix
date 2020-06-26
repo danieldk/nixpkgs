@@ -1,34 +1,60 @@
 { buildPythonPackage
 , stdenv
 , fetchFromGitHub
-, sacremoses
-, requests
-, sentencepiece
 , boto3
-, tqdm
+, filelock
 , regex
+, requests
 , numpy
+, sacremoses
+, sentencepiece
+, timeout-decorator
+, tokenizers
+, tqdm
 , pytest
 }:
 
 buildPythonPackage rec {
   pname = "transformers";
-  version = "2.2.1";
+  version = "2.11.0";
 
   src = fetchFromGitHub {
     owner = "huggingface";
     repo = pname;
     rev = "v${version}";
-    sha256 = "1p8p3lhhiyk1xl9gpgq4vbchyz57v3w7hhvsj1r90zs3cckindl8";
+    sha256 = "1caqz5kp8mfywhiq8018c2jf14v15blj02fywh9xgvpq2dns9sc1";
   };
 
-  propagatedBuildInputs = [ numpy sacremoses requests sentencepiece boto3 tqdm regex ];
+  propagatedBuildInputs = [
+    boto3
+    filelock
+    numpy
+    regex
+    requests
+    sacremoses
+    sentencepiece
+    tokenizers
+    tqdm
+  ];
 
-  checkInputs = [ pytest ];
-  # pretrained tries to download from s3
+  checkInputs = [
+    pytest
+    timeout-decorator
+  ];
+
+  # Disable tests that require network access.
   checkPhase = ''
-    cd transformers # avoid importing local files
-    HOME=$TMPDIR pytest -k 'not pretrained_tokenizers'
+    cd tests
+    HOME=$TMPDIR pytest -k "\
+       not test_all_tokenizers and \
+       not test_config_from_model_shortcut and \
+       not test_config_model_type_from_model_identifier and \
+       not test_from_pretrained_use_fast_toggle and \
+       not test_hf_api and \
+       not test_tokenizer_from_model_type and \
+       not test_tokenizer_from_model_type and \
+       not test_tokenizer_from_pretrained and \
+       not test_tokenizer_identifier_with_correct_config"
   '';
 
   meta = with stdenv.lib; {
