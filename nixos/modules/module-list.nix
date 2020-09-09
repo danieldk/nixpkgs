@@ -67,6 +67,7 @@
   ./hardware/uinput.nix
   ./hardware/video/amdgpu.nix
   ./hardware/video/amdgpu-pro.nix
+  ./hardware/video/amdgpu-rocm.nix
   ./hardware/video/ati.nix
   ./hardware/video/capture/mwprocapture.nix
   ./hardware/video/bumblebee.nix
