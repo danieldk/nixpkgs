@@ -9513,6 +9513,12 @@ in
     inherit (llvmPackages_rocm) clang clang-unwrapped lld llvm;
   };
 
+  rocm-mesa = callPackage ../development/libraries/mesa {
+    llvmPackages = llvmPackages_rocm;
+    inherit (darwin.apple_sdk.frameworks) OpenGL;
+    inherit (darwin.apple_sdk.libs) Xplugin;
+  };
+
   rocm-opencl-icd = callPackage ../development/libraries/rocm-opencl-icd { };
 
   rocm-opencl-runtime = callPackage ../development/libraries/rocm-opencl-runtime {
