@@ -14,8 +14,8 @@ stdenv.mkDerivation rec {
   src = fetchFromGitHub {
     owner = "google";
     repo = pname;
-    rev = "v${version}";
-    sha256 = "sha256:11cqw4hx33gw2jmrg11jyp7fj9pwzwjwzqcn24jfsbgh6n8gks5x";
+    rev = "77e3412b2c7c0d755c09e81e40d0fd40cf24604f";
+    sha256 = "sha256-jquI6bIK/FtptAyyz7LELxG56JTOfcczpLWMbI3BdoY=";
   };
 
   nativeBuildInputs = [ cmake ] ++ lib.optional withGPerfTools gperftools;
