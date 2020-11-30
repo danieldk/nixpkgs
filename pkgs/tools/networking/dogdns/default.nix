@@ -1,10 +1,11 @@
 { stdenv
 , fetchFromGitHub
 , rustPlatform
+, installShellFiles
 , pkg-config
+, scdoc
 , openssl
 , Security
-, installShellFiles
 }:
 
 rustPlatform.buildRustPackage rec {
@@ -14,19 +15,22 @@ rustPlatform.buildRustPackage rec {
   src = fetchFromGitHub {
     owner = "ogham";
     repo = "dog";
-    rev = "v${version}";
-    sha256 = "088ib0sncv0vrvnqfvxf5zc79v7pnxd2cmgp4378r6pmgax9z9zy";
+    rev = "42be9a32e7abfbe8f7dacad98b2cc27768f7cafe";
+    hash = "sha256-6D59kIcDWNrv+3LyN0Xnnusci04vwUQpt++yPQOUiEE=";
   };
 
-  nativeBuildInputs = [ installShellFiles ]
+  nativeBuildInputs = [ installShellFiles scdoc ]
     ++ stdenv.lib.optionals stdenv.isLinux [ pkg-config ];
   buildInputs = stdenv.lib.optionals stdenv.isLinux [ openssl ]
     ++ stdenv.lib.optionals stdenv.isDarwin [ Security ];
 
-  cargoSha256 = "08scc6vh703245rg3xkffhalrk5pisd0wg54fd49d7gdbyjivgi6";
+  cargoSha256 = "sha256-4wXfQnCy87uK7B2MbtUT+v9kLEvQbcxhTmu+rBilouA=";
 
   postInstall = ''
     installShellCompletion completions/dog.{bash,fish,zsh}
+
+    scdoc < man/dog.1.scd > man/dog.1
+    installManPage man/dog.1
   '';
 
   meta = with stdenv.lib; {
