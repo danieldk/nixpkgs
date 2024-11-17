@@ -2767,6 +2767,8 @@ self: super: with self; {
 
   curated-tokenizers = callPackage ../development/python-modules/curated-tokenizers { };
 
+  curated-transformers = callPackage ../development/python-modules/curated-transformers { };
+
   customtkinter = callPackage ../development/python-modules/customtkinter { };
 
   cucumber-tag-expressions = callPackage ../development/python-modules/cucumber-tag-expressions { };
