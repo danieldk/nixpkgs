@@ -178,6 +178,9 @@ backendStdenv.mkDerivation rec {
     # than pinned in runpath
     "libcuda.so.1"
 
+    # Similar to libcuda.so.1, this is part of the driver package.
+    "libnvidia-ml.so.1"
+
     # The krb5 expression ships libcom_err.so.3 but cudatoolkit asks for the
     # older
     # This dependency is asked for by target-linux-x64/CollectX/RedHat/x86_64/libssl.so.10
@@ -292,14 +295,23 @@ backendStdenv.mkDerivation rec {
         wrapProgram $out/bin/nvprof \
           --prefix LD_LIBRARY_PATH : $out/lib
       ''
-    # 11.8 includes a broken symlink, include/include, pointing to targets/x86_64-linux/include
-    + lib.optionalString (lib.versions.majorMinor version == "11.8") ''
+    # 11.8 and 12.9 include a broken symlink, include/include, pointing to targets/x86_64-linux/include
+    + lib.optionalString (lib.versions.majorMinor version == "11.8" || lib.versions.majorMinor version == "12.9") ''
       rm $out/include/include
+    ''
+    # 12.9 has another broken symlink, lib64/lib64, pointing to lib/targets/x86_64-linux/lib
+    + lib.optionalString (lib.versions.majorMinor version == "12.9") ''
+      rm $out/lib64/lib64
     ''
     # Python 3.8 is not in nixpkgs anymore, delete Python 3.8 cuda-gdb support
     # to avoid autopatchelf failing to find libpython3.8.so.
     + lib.optionalString (lib.versionAtLeast version "12.6") ''
       find $out -name '*python3.8*' -delete
+    ''
+    # Python 3.9 is not in nixpkgs anymore, delete Python 3.9 cuda-gdb support
+    # to avoid autopatchelf failing to find libpython3.9.so.
+    + lib.optionalString (lib.versionAtLeast version "12.9") ''
+      find $out -name '*python3.9*' -delete
     ''
     + ''
       runHook postInstall

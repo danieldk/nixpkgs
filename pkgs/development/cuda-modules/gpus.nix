@@ -224,6 +224,33 @@
     maxCudaVersion = null;
   }
   {
+    # NVIDIA Blackwell
+    archName = "Blackwell";
+    computeCapability = "10.3";
+    isJetson = false;
+    minCudaVersion = "12.9";
+    dontDefaultAfter = "12.0"; # disable to reduce size of OnnxRuntime and Torch CUDA binaries
+    maxCudaVersion = null;
+  }
+  {
+    # NVIDIA Blackwell Accelerated
+    archName = "Blackwell";
+    computeCapability = "10.3a";
+    isJetson = false;
+    minCudaVersion = "12.9";
+    dontDefaultAfter = "12.0"; # disable to reduce size of OnnxRuntime and Torch CUDA binaries
+    maxCudaVersion = null;
+  }
+  {
+    # NVIDIA Blackwell Family
+    archName = "Blackwell";
+    computeCapability = "10.3f";
+    isJetson = false;
+    minCudaVersion = "12.9";
+    dontDefaultAfter = "12.0"; # disable to reduce size of OnnxRuntime and Torch CUDA binaries
+    maxCudaVersion = null;
+  }
+  {
     # NVIDIA GeForce RTX 5090 (GB202), RTX 5080 (GB203), RTX 5070 (GB205)
     archName = "Blackwell";
     computeCapability = "12.0";
@@ -241,4 +268,14 @@
     dontDefaultAfter = "12.0"; # disable to reduce size of OnnxRuntime and Torch CUDA binaries
     maxCudaVersion = null;
   }
+  {
+    # NVIDIA Blackwell Accelerated
+    archName = "Blackwell";
+    computeCapability = "12.1";
+    isJetson = false;
+    minCudaVersion = "12.9";
+    dontDefaultAfter = "12.0"; # disable to reduce size of OnnxRuntime and Torch CUDA binaries
+    maxCudaVersion = null;
+  }
+
 ]
