@@ -100,7 +100,7 @@ let
       # For example, this allows selecting manifests by predicating on values like
       # `backendStdenv.hasJetsonCudaCapability`, which would otherwise result in infinite recursion due to the reliance
       # on `pkgs'`, which in turn depends on the manifests provided to this file (which can depend on `backendStdenv`).
-      backendStdenv = import ./backendStdenv {
+      backendStdenv = lib.makeOverridable (import ./backendStdenv) {
         inherit
           _cuda
           config
